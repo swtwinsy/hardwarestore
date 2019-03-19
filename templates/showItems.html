@@ -1,0 +1,77 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<!-- To divide between the banner and the content -->
+<div class= "row divider green">
+   <div class="col-md-12"></div>
+</div>
+
+<div class="row banner Items">
+  <div class="col-md-11 col-md-offset-1 padding-none">
+	<h1>{{ category.name }} </h1>
+	<h2>{{category.description}}</h2>
+  </div>
+</div>
+
+
+<div class="col-md-6 text-right">
+{%if 'username' not in session %}
+   <figure class="creator">
+   <img src="{{ url_for('static', filename='blank_user.gif') }}">
+   </figure>
+{% else %}
+    <h5>{{creator.name}}</h5>
+    <figure>
+    <img src={{creator.picture}}>
+    </figure>
+{% endif %}
+</div>
+
+	
+<div class = 'flash'>
+   {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+   {% endwith %}
+</div>
+
+<div class="row padding-top padding-bottom">
+   <div class="col-md-1"></div>
+   <div class="col-md-11 padding-none">
+      <a href="{{url_for('newItem', category_id = category.id )}}">
+	<button class="btn btn-default" id="new-item">
+	  <span class="glyphicon glyphicon-plus"></span>Add Hardware Category Item
+	</button>
+      </a>
+	
+      
+   </div>
+   <div class="col-md-7"></div>
+</div>
+
+
+{% if items !=[] %}
+<div class="row">
+  <div class="col-md-1"></div>
+     <div class="col-md-3">
+       {% for i in items %}
+           <a href = "{{url_for('showItem',item_id = i.id)}}">
+	   <div class="row">
+       	   <div class="col-md-1"></div>	
+	     <div class="item-list">
+	        <h3>{{i.name}}</h3>
+	        <br>
+	     </div>
+	   </div>	
+           </a> 
+	 {% endfor %}
+     </div>
+ </div>
+{% endif %}
+{% endblock %}

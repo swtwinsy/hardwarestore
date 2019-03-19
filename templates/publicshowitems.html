@@ -1,0 +1,68 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<div class="row divider gray">
+  <div class="col-md-12"></div>
+</div>
+
+
+<div class="banner.item-list">
+   <div class="categorydesc col-md-8 text-left">
+        <br>
+	<h1>{{ category.name }} </h1>
+	<h2>{{category.description}}</h2>
+	<br>
+	<br>
+  </div>
+
+  <div class="col-md-4 text-right">
+        <br>
+	{%if 'username' not in session %}
+	   <figure class="creator">
+	   <img src="{{ url_for('static', filename='blank_user.gif') }}">
+	   <h5>Anonymous User</h5>	
+           </figure>
+           
+	{% else %}
+           <h5>{{creator.name}}</h5>
+	   <img src={{creator.picture}}>
+	{% endif %}
+			
+  </div>
+</div>
+       
+       
+   
+<div class="row">
+   <div class="col-md-12">
+     {% with messages = get_flashed_messages() %}
+	{% if messages %}
+	   <ul>
+		{% for message in messages %}
+	 	 <li> <strong> {{ message }} </strong> </li>
+		{% endfor %}
+	   </ul>
+	{% endif %}
+     {% endwith %}
+   </div>
+</div>
+
+
+
+{% if items !=[] %}
+   {% for i in items %}
+   <div class="row">
+       <div class="col-md-1"></div> 
+       <div class="col-md-12 item-list">
+       <a href = "{{url_for('showItem',item_id = i.id)}}">
+       <h3>{{i.name}}</h3>
+       </a>
+       </div>
+   </div>
+   
+{% endfor %}       
+
+   
+{% endif %}
+{% endblock %}
